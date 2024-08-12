@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Facilities,Levels } = require("../models");
+const { Facilities,Levels,Spaces,Devices } = require("../models");
 const Sequelize = require('sequelize');
 
 const { validateToken } = require("../middlewares/AuthMiddleware");
@@ -28,6 +28,45 @@ router.get("/", async (req, res) => {
   // res.json({ listOfPosts: listOfPosts, likedPosts: likedPosts });
 });
 
+router.get("/gridDatabySiteId/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    // Fetch Facilities and levels along with their spaces 
+    const listOfGrid = await Facilities.findAll({
+      where: { Site_Id: id },
+      include: [
+        {
+          model: Levels,
+          as: 'Levels',
+          include:[{
+            module:Spaces,
+            as :'Spaces'
+          }]
+        }
+       
+      ]
+    });
+
+    // Fetch devices for each space
+    for (const facility of listOfGrid) {
+      for (const level of facility.Levels) {
+        for(const space of level.Spaces){
+          const devices = await Devices.findAll({
+            where: { Space_Id: space.spaceId }
+          });
+          space.setDataValue('Devices', devices); 
+        }
+      
+      }
+    }
+
+    res.status(200).json(listOfGrid);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 router.get("/byId/:facilityId", async (req, res) => {
   const id = req.params.facilityId;
   const post = await Facilities.findByPk(id);
