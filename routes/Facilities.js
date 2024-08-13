@@ -22,49 +22,49 @@ router.get("/", async (req, res) => {
   });
   res.status(200).json(listoOfFacilties);
 
- 
-  // const listOfPosts = await Sites.findAll({ include: [Likes] });
-  // const likedPosts = await Likes.findAll({ where: { UserId: req.user.id } });
-  // res.json({ listOfPosts: listOfPosts, likedPosts: likedPosts });
 });
 
 router.get("/gridDatabySiteId/:id", async (req, res) => {
   try {
-    const id = req.params.id;
-    
-    // Fetch Facilities and levels along with their spaces 
+    const { id } = req.params;
+
+    // Fetch facilities and levels along with their spaces
     const listOfGrid = await Facilities.findAll({
       where: { Site_Id: id },
       include: [
         {
           model: Levels,
           as: 'Levels',
-          include:[{
-            module:Spaces,
-            as :'Spaces'
-          }]
+          include: [
+            {
+              model: Spaces,
+              as: 'Spaces'
+            }
+          ]
         }
-       
       ]
     });
+
+    if (!listOfGrid.length) {
+      return res.status(404).json({ error: 'No data found for the given Site ID.' });
+    }
 
     // Fetch devices for each space
     for (const facility of listOfGrid) {
       for (const level of facility.Levels) {
-        for(const space of level.Spaces){
+        for (const space of level.Spaces) {
           const devices = await Devices.findAll({
             where: { Space_Id: space.spaceId }
           });
-          space.setDataValue('Devices', devices); 
+          space.setDataValue('Devices', devices);
         }
-      
       }
     }
 
     res.status(200).json(listOfGrid);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching grid data:', error.message, error.stack);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
 router.get("/byId/:facilityId", async (req, res) => {
