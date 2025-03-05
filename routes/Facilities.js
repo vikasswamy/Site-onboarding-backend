@@ -92,7 +92,7 @@ router.post("/", async (req, res) => {
     "facilityName":req.body.facilityName,
     "fileUrl":req.body.imageUrl?req.body.imageUrl:'https://storagesmartroute27.blob.core.windows.net/filesupload/dummy_Site_png.png',
     "geometry":polygonObj,
-   "facilitylocation" : { type: 'Point', coordinates: [req.body.lan, req.body.lat]}
+   "facilitylocation" : JSON.stringify({ type: 'Point', coordinates: [req.body.lan, req.body.lat]})
   }
 
   await Facilities.create(facility);

@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
       //   allowNull: true,
       // },
       geometry:{
-        type: DataTypes.GEOMETRY("POLYGON"),
+        type: DataTypes.STRING,
         allowNull: false,
       },
       facilitylocation: {
-        type: DataTypes.GEOMETRY("POINT"),
+        type: DataTypes.STRING,
         allowNull: false,
       },
      

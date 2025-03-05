@@ -1,23 +1,23 @@
 {
   "development": {
-      "username": "root",
-      "password": "mapmatrix@2024",
-      "database": "iot",
-    "host": "localhost",
+      "username": "sql12765701",
+      "password": "UWjjKYtfPu",
+      "database": "sql12765701",
+    "host": "sql12.freesqldatabase.com",
     "dialect": "mysql"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": "sql12755042",
+      "password": "LGV1SfBB5h",
+      "database": "sql12755042",
+    "host": "sql12.freesqldatabase.com",
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "sql12755042",
+    "password": "LGV1SfBB5h",
+    "database": "sql12755042",
+  "host": "sql12.freesqldatabase.com",
+  "dialect": "mysql"
   }
 }

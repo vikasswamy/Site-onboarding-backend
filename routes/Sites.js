@@ -83,7 +83,7 @@ router.post("/", async (req, res) => {
     "fileUrl" :req.body.fileUrl?req.body.fileUrl:'https://storagesmartroute27.blob.core.windows.net/filesupload/dummy_Site_png.png',
     "siteAddress":req.body.siteAddress,
     "siteTimeZone":req.body.siteTimeZone,
-   "location" : { type: 'Point', coordinates: [req.body.lan, req.body.lat]}
+   "location" : JSON.stringify({ type: 'Point', coordinates: [req.body.lan, req.body.lat]})
   }
   
   console.log(post,"::::body:::");

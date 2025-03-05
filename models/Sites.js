@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull:true,
       },
       location: {
-        type: DataTypes.GEOMETRY("POINT"),
+        type: DataTypes.STRING,
         allowNull: false,
       },
     
